@@ -79,7 +79,54 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\MyTools\MyTools\AES.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\Character.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLErrMsg.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLFile.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLGrammar.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLHook.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLInjector.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLLock.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLLog.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLNoModuleDLL.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLProcess.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLScript.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLSearchBase.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLStackTrace.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CLThread.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\CPublic.cpp" />
+    <ClCompile Include="..\..\MyTools\MyTools\DES.cpp" />
+    <ClCompile Include="ConsoleVariable.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TextConfig.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\MyTools\MyTools\AES.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\ByteBuffer.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\Character.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\ClassInstance.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLErrMsg.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLFile.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLGrammar.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLHook.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLInjector.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLLock.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLLog.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLNoModuleDLL.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLNoModuleDLL_Struct.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLProcess.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLPublic.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLScript.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLSearchBase.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLStackTrace.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLThread.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\CLVector.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\DES.h" />
+    <ClInclude Include="..\..\MyTools\MyTools\RC4.hpp" />
+    <ClInclude Include="..\..\MyTools\MyTools\ToolsPublic.h" />
+    <ClInclude Include="..\BnsDLL\GameStruct.h" />
+    <ClInclude Include="ConsoleVariable.h" />
+    <ClInclude Include="TextConfig.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

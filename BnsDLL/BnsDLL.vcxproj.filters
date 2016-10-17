@@ -13,89 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Config">
-      <UniqueIdentifier>{8c230e77-de0a-4a04-a146-fd78701d7409}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLauncher">
-      <UniqueIdentifier>{9bf0b750-df41-441f-9d84-b01169441b51}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Variable">
-      <UniqueIdentifier>{9e53980c-1012-432a-9f7c-a3ca838faaa8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common">
-      <UniqueIdentifier>{7a220b9f-af73-485d-bf99-d5f91e6c60dc}</UniqueIdentifier>
+      <UniqueIdentifier>{ffc69858-e837-4b7c-a522-991f08df3aef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextConfig.cpp">
-      <Filter>Config</Filter>
-    </ClCompile>
-    <ClCompile Include="ConsoleVariable.cpp">
-      <Filter>Variable</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\AES.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\Character.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLErrMsg.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLFile.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLGrammar.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLHook.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLInjector.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLLock.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLLog.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLNoModuleDLL.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLProcess.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLScript.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLSearchBase.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLStackTrace.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CLThread.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\CPublic.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyTools\MyTools\DES.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TextConfig.h">
-      <Filter>Config</Filter>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleVariable.h">
-      <Filter>Variable</Filter>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\BnsDLL\GameStruct.h">
+    <ClInclude Include="GameStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MyTools\MyTools\AES.h">
@@ -167,5 +99,67 @@
     <ClInclude Include="..\..\MyTools\MyTools\ToolsPublic.h">
       <Filter>Common</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BnsDLL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\AES.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\Character.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLErrMsg.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLFile.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLGrammar.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLHook.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLInjector.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLLock.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLLog.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLNoModuleDLL.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLProcess.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLScript.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLSearchBase.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLStackTrace.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CLThread.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\CPublic.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MyTools\MyTools\DES.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
