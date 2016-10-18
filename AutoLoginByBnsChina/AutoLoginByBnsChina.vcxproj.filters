@@ -25,6 +25,12 @@
     <Filter Include="Common">
       <UniqueIdentifier>{7a220b9f-af73-485d-bf99-d5f91e6c60dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Account">
+      <UniqueIdentifier>{a26016c4-5bdc-4f59-9351-9b68575e7e6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ConsoleCommond">
+      <UniqueIdentifier>{6e1e1c15-9738-44e0-85bf-b4f8342afa2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,6 +92,12 @@
     </ClCompile>
     <ClCompile Include="..\..\MyTools\MyTools\DES.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountServices.cpp">
+      <Filter>Account</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleCommond.cpp">
+      <Filter>ConsoleCommond</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="..\..\MyTools\MyTools\ToolsPublic.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountServices.h">
+      <Filter>Account</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleCommond.h">
+      <Filter>ConsoleCommond</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -96,6 +96,8 @@
     <ClCompile Include="..\..\MyTools\MyTools\CLThread.cpp" />
     <ClCompile Include="..\..\MyTools\MyTools\CPublic.cpp" />
     <ClCompile Include="..\..\MyTools\MyTools\DES.cpp" />
+    <ClCompile Include="AccountServices.cpp" />
+    <ClCompile Include="ConsoleCommond.cpp" />
     <ClCompile Include="ConsoleVariable.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TextConfig.cpp" />
@@ -125,6 +127,8 @@
     <ClInclude Include="..\..\MyTools\MyTools\RC4.hpp" />
     <ClInclude Include="..\..\MyTools\MyTools\ToolsPublic.h" />
     <ClInclude Include="..\BnsDLL\GameStruct.h" />
+    <ClInclude Include="AccountServices.h" />
+    <ClInclude Include="ConsoleCommond.h" />
     <ClInclude Include="ConsoleVariable.h" />
     <ClInclude Include="TextConfig.h" />
   </ItemGroup>

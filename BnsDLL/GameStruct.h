@@ -28,12 +28,18 @@ enum em_Player_Classes
 	em_Player_Classes_Warlock = 0x9,
 	// Цјзк
 	em_Player_Classes_KongFuForceMaster = 0xA
+
 };
 
 struct AccountConfig
 {
 	std::wstring		wsAccountName;
 	std::wstring		wsAccountPass;
+
+	VOID Clear()
+	{
+		wsAccountName = wsAccountPass = L"";
+	}
 };
 
 struct AccountPlayerConfig
@@ -42,6 +48,12 @@ struct AccountPlayerConfig
 	UINT				uLevel;
 	em_Player_Classes	emPlayerClass;
 	std::wstring		wsPlayerName;
+
+	VOID Clear()
+	{
+		uIndex = uLevel = NULL;
+		wsPlayerName = L"";
+	}
 };
 
 struct TextAccountSchedule
@@ -50,6 +62,14 @@ struct TextAccountSchedule
 	BOOL						bFinish;
 	UINT						uVolume;
 	vector<AccountPlayerConfig> AccountPlayerConfigVec;
+
+	VOID Clear()
+	{
+		bFinish = FALSE;
+		uVolume = NULL;
+		AccountContent.Clear();
+		AccountPlayerConfigVec.clear();
+	}
 };
 
 enum em_Console_Variable
