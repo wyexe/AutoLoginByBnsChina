@@ -1,0 +1,2 @@
+# AutoLoginByBnsChina
+promise to someone
