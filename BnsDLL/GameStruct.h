@@ -7,6 +7,8 @@
 #include <MyTools/CLLog.h>
 #include <MyTools/ClassInstance.h>
 
+#define SZFILE_NAME_SHAREDINFO	L"Bns_China_Share_Mem"
+
 
 enum em_Player_Classes
 {
@@ -82,24 +84,9 @@ typedef struct _Account_Info
 {
 	WCHAR szUserName[64];			//	帐号
 	WCHAR szPassWord[32];			//	密码
-	DWORD dwServerId;				//	服务器
-	DWORD dwOrderIndex;				//	角色列表
-	WCHAR szPlayerName[32];			//	玩家名称
-	BOOL bAlive;					//	活动标识，定期检测一次此标识，如果没有设置为TRUE表示目标进程出问题了。
-	BOOL bLogin;					//	登录完毕=FALSE
-	WCHAR szCardNo[64];				//	卡号
-	DWORD dwClasses;				// 职业
+	UINT uVolumn;					//  点卷
 }ACCOUNT_INFO, *PACCOUNT_INFO;
 
-typedef enum _em_Close_Result
-{
-	em_Close_Result_None,			// 正常状态
-	em_Close_Result_ReStart,		// 重新上号
-	em_Close_Result_LoseConnect,	// 掉线
-	em_Close_Result_FixPoint,		// 5分钟
-	em_Close_Result_CloseConsole,	// 关闭控制台
-	em_Close_Result_UnExistTime,	// 点卡没了
-}em_Close_Result;
 
 typedef struct _AccountRunStatus
 {
@@ -107,7 +94,6 @@ typedef struct _AccountRunStatus
 	BOOL bExist;											// 该帐号已经被占用了
 	BOOL bLogining;											// 是否登录中
 	BOOL bClose;											// 是否强制关闭该帐号
-	em_Close_Result	emCloseResult;							// 关闭理由
 }AccountRunStatus;
 
 typedef struct _AccountLog
@@ -116,6 +102,15 @@ typedef struct _AccountLog
 	WCHAR szMsg[64];										// 日志
 }AccountLog;
 
+struct Account_Player_Info
+{
+	UINT uIndex;
+	UINT uLevel;
+	em_Player_Classes emPlayerClasses;
+	WCHAR wszPlayerName[64];
+};
+
+#define MAX_PLAYER_COUNT 10
 typedef struct _Account_Info_GAME
 {
 	ACCOUNT_INFO MyAcount_Info;								// 帐号信息
@@ -123,18 +118,27 @@ typedef struct _Account_Info_GAME
 	DWORD dwPid;											// 进程ID
 	HWND hGameWnd;											// 窗口句柄
 	AccountRunStatus AccountStatus;							// 帐号状态
+	UINT uAccountPlayerCount;								// 
+	Account_Player_Info AccountPlayerArr[MAX_PLAYER_COUNT];	// 
+	UINT uLoginFaildCount;									// 登录失败次数
 
 	LPCWSTR GetAccName()
 	{
 		return this->GetAccountInfo()->szUserName;
 	}
-	DWORD& GetOrderIndex()
-	{
-		return this->GetAccountInfo()->dwOrderIndex;
-	}
 	PACCOUNT_INFO GetAccountInfo()
 	{
 		return &this->MyAcount_Info;
+	}
+	VOID Clear()
+	{
+		ZeroMemory(AccountPlayerArr, sizeof(Account_Player_Info) * MAX_PLAYER_COUNT);
+		uAccountPlayerCount = NULL;
+		dwPid = NULL;
+		hGameWnd = NULL;
+		AccountStatus.bDone = FALSE;
+		AccountStatus.bClose = FALSE;
+		AccountStatus.bLogining = FALSE;
 	}
 }ACCOUNT_INFO_GAME, *PACCOUNT_INFO_GAME;
 
@@ -153,20 +157,25 @@ typedef struct _Shared_Info
 			return !AccountGame.AccountStatus.bExist;
 		});
 
-		if (itr == std::end(arrGameInfo))
-			return nullptr;
-		return itr;
+		return itr == std::end(arrGameInfo) ? nullptr : itr;
 	}
 	PACCOUNT_INFO_GAME GetCurrentAccountGame(_In_ DWORD dwPid)
 	{
 		auto itr = std::find_if(std::begin(arrGameInfo), std::end(arrGameInfo), [&dwPid](ACCOUNT_INFO_GAME& AccountGame) {
 			return AccountGame.dwPid == dwPid;
 		});
-
-		if (itr == std::end(arrGameInfo))
-			return nullptr;
-
-		return itr;
+		return itr == std::end(arrGameInfo) ? nullptr : itr;
+	}
+	PACCOUNT_INFO_GAME GetUnLoginArrGameInfo()
+	{
+		auto itr = std::find_if(std::begin(arrGameInfo), std::end(arrGameInfo), [](ACCOUNT_INFO_GAME& AccountGame) {
+			return !AccountGame.AccountStatus.bDone && AccountGame.AccountStatus.bExist;
+		});
+	}
+	VOID Clear()
+	{
+		nAccountCount = NULL;
+		ZeroMemory(arrGameInfo, sizeof(ACCOUNT_INFO_GAME) * MAX_GAME_COUNT);
 	}
 }SHARED_INFO, *PSHARED_INFO;
 

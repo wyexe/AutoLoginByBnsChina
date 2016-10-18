@@ -99,6 +99,7 @@
     <ClCompile Include="AccountServices.cpp" />
     <ClCompile Include="ConsoleCommond.cpp" />
     <ClCompile Include="ConsoleVariable.cpp" />
+    <ClCompile Include="GameLauncher.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TextConfig.cpp" />
   </ItemGroup>
@@ -130,6 +131,7 @@
     <ClInclude Include="AccountServices.h" />
     <ClInclude Include="ConsoleCommond.h" />
     <ClInclude Include="ConsoleVariable.h" />
+    <ClInclude Include="GameLauncher.h" />
     <ClInclude Include="TextConfig.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

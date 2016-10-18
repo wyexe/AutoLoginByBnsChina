@@ -45,6 +45,10 @@ public:
 
 	// Language
 	CONST std::wstring& GetLanguage() CONST throw();
+
+	VOID PrintToConsole(_In_ LPCWSTR pwszFormat, ...) CONST throw();
+
+	DWORD GetMaxLoginTime() CONST throw();
 private:
 	CONST vector<PlayerClassText>& GetPlayerClassTextVec() CONST throw();
 private:

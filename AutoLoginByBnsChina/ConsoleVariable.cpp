@@ -152,6 +152,37 @@ CONST std::wstring& CConsoleVariable::GetLanguage() CONST throw()
 	return wsLanguage;
 }
 
+VOID CConsoleVariable::PrintToConsole(_In_ LPCWSTR pwszFormat, ...) CONST throw()
+{
+	va_list		args;
+	wchar_t		Buffer[1024] = { 0 };
+
+	va_start(args, pwszFormat);
+	_vsnwprintf_s(Buffer, _countof(Buffer) - 1, _TRUNCATE, pwszFormat, args);
+	va_end(args);
+
+	static CLLock Lock(L"CConsoleVariable::PrintToConsole");
+	Lock.Access([&Buffer] {
+		wcout << Buffer << endl;
+	});
+}
+
+DWORD CConsoleVariable::GetMaxLoginTime() CONST throw()
+{
+	static DWORD dwMaxLoginTime = NULL;
+	if (dwMaxLoginTime == NULL)
+	{
+		std::wstring wsMaxLoginTime;
+		if (!CTextConfig::GetInstance().GetConfigValue_By_KeyName(L"MaxLoginTime", wsMaxLoginTime))
+		{
+			PrintErrLog(CTextConfig::GetInstance().GetText_By_Code(0x1E).c_str());
+			ExitProcess(0);
+		}
+		dwMaxLoginTime = static_cast<DWORD>(_wtoi(wsMaxLoginTime.c_str()));
+	}
+	return dwMaxLoginTime;
+}
+
 CONST vector<CConsoleVariable::PlayerClassText>& CConsoleVariable::GetPlayerClassTextVec() CONST throw()
 {
 	CONST static vector<PlayerClassText> Vec = {

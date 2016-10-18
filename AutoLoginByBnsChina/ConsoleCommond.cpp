@@ -1,6 +1,7 @@
 #include "ConsoleCommond.h"
 #include <MyTools/Character.h>
 #include "TextConfig.h"
+#include "AccountServices.h"
 
 DWORD WINAPI CConsoleCommond::ResetAccount(vector<GrammarContext>& vlst, LPWSTR pwszRetMsg)
 {
@@ -47,11 +48,51 @@ DWORD WINAPI CConsoleCommond::ResetAccount(vector<GrammarContext>& vlst, LPWSTR 
 
 DWORD WINAPI CConsoleCommond::Run(vector<GrammarContext>& vlst, LPWSTR pwszRetMsg)
 {
+	std::vector<TextAccountSchedule> AccountScheduleVec;
+	if (!CTextConfig::GetInstance().GetAccountSchedule(AccountScheduleVec))
+	{
+		swprintf_s(pwszRetMsg, 1024 - 1, CTextConfig::GetInstance().GetText_By_Code(0x18).c_str());
+		return 0;
+	}
+
+	if (!CAccountServices::GetInstance().InitializeAccountShare())
+	{
+		swprintf_s(pwszRetMsg, 1024 - 1, L"InitializeAccountShare = FALSE!");
+		return 0;
+	}
+
+	std::wstring wsLoginFaildCount;
+	if (CTextConfig::GetInstance().GetConfigValue_By_KeyName(L"MaxLoginFaildCount", wsLoginFaildCount))
+	{
+		swprintf_s(pwszRetMsg, 1024 - 1, L"Run Faild!");
+		return 0;
+	}
+
+	UINT uLoginFaildCount = static_cast<UINT>(_wtoi(wsLoginFaildCount.c_str()));
+	auto pShare = CConsoleVariable::GetInstance().GetShareInfo();
+
+	ACCOUNT_INFO_GAME* pAccGame = nullptr;
+	while ((pAccGame = pShare->GetUnLoginArrGameInfo()) != nullptr)
+	{
+		CConsoleVariable::GetInstance().PrintToConsole(CTextConfig::GetInstance().GetText_By_Code(0x19).c_str(), pAccGame->GetAccName());
+		CAccountServices::GetInstance().RunGame(pAccGame);
+		if (pAccGame->uLoginFaildCount >= uLoginFaildCount)
+		{
+			CConsoleVariable::GetInstance().PrintErrLog(CTextConfig::GetInstance().GetText_By_Code(0x1D).c_str(), pAccGame->GetAccName(), uLoginFaildCount);
+			pAccGame->AccountStatus.bDone = TRUE;
+		}
+	}
+
 	return 0;
+}
+
+DWORD WINAPI CConsoleCommond::Stop(vector<GrammarContext>& vlst, LPWSTR pwszRetMsg)
+{
+
 }
 
 DWORD WINAPI CConsoleCommond::Total(vector<GrammarContext>& vlst, LPWSTR pwszRetMsg)
 {
-	// Logining Account + Finish AccountCount + UnFinish AccountCount + Sum Volumn Count
+	CAccountServices::GetInstance().PrintTotal();
 	return 0;
 }

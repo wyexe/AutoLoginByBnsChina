@@ -138,7 +138,7 @@ CONST std::wstring CTextConfig::GetText_By_Code(_In_ DWORD dwCode) CONST throw()
 {
 	WCHAR wszPath[MAX_PATH] = { 0 };
 	::GetCurrentDirectoryW(MAX_PATH, wszPath);
-	lstrcatW(wszPath, L"\\Language\Text.ini");
+	lstrcatW(wszPath, L"\\Language\\Text.ini");
 	if (!CLPublic::FileExit(wszPath))
 	{
 		CConsoleVariable::GetInstance().PrintErrLog(L"where's the '%s'?", wszPath);
@@ -276,7 +276,7 @@ BOOL CTextConfig::ReadAccountSchedule_By_File(_In_ _Out_ std::vector<TextAccount
 			continue;
 		}
 	}
-
+	return TRUE;
 }
 
 BOOL CTextConfig::ReadASCIIFile_By_Path(_In_ CONST wstring& cwsPath, _Out_ std::wstring& wsContent) CONST throw()

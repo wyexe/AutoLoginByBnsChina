@@ -99,6 +99,9 @@
     <ClCompile Include="ConsoleCommond.cpp">
       <Filter>ConsoleCommond</Filter>
     </ClCompile>
+    <ClCompile Include="GameLauncher.cpp">
+      <Filter>GameLauncher</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TextConfig.h">
@@ -184,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="ConsoleCommond.h">
       <Filter>ConsoleCommond</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLauncher.h">
+      <Filter>GameLauncher</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
