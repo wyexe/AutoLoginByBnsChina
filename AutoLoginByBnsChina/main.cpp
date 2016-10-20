@@ -1,9 +1,10 @@
 #include <iostream>
 #include <string>
+#include <thread>
+#include <MyTools/CLPublic.h>
 #include "ConsoleCommond.h"
 #include "GameLauncher.h"
-#include <thread>
-
+#include "TextConfig.h"
 VOID WeclomeStep()
 {
 	wcout << L"---------------------------------------" << endl;
@@ -27,7 +28,7 @@ BOOL InitializeShareMemory()
 		return FALSE;
 	}
 
-	// 创建文件映射
+	// 
 	HANDLE hFileMap = ::CreateFileMappingW(hFileSharedInfo, NULL, PAGE_READWRITE, NULL, sizeof(SHARED_INFO), SZFILE_NAME_SHAREDINFO);
 	if (hFileMap == NULL)
 	{
@@ -38,7 +39,7 @@ BOOL InitializeShareMemory()
 
 	::CloseHandle(hFileSharedInfo);
 
-	// 映射文件到内存
+	// 
 	auto& pShare = CConsoleVariable::GetInstance().GetShareInfo();
 	pShare = (PSHARED_INFO)MapViewOfFile(hFileMap, FILE_MAP_READ | FILE_SHARE_WRITE, NULL, NULL, sizeof(SHARED_INFO));
 	if (pShare == NULL)
@@ -55,13 +56,26 @@ BOOL InitializeShareMemory()
 
 BOOL CheckFile()
 {
-	// CrackCaptchaAPI.dll
+	WCHAR wszPath[MAX_PATH] = { 0 };
+	::GetCurrentDirectoryW(MAX_PATH, wszPath);
+	std::wstring wsPath = wszPath;
 
+	CONST static std::vector<std::wstring> FilePathVec = {
+		L"\\Config.ini", L"\\DLL\\BnsDLL.dll", L"\\DLL\\CrackCaptchaAPI.dll",
+		L"\\Language\\Text.ini"
+	};
 
-	CGameLauncher::GetInstance().SetAsker([](CONST std::wstring& wsVerCodePath) {
+	for (CONST auto& itm : FilePathVec)
+	{
+		if (!CLPublic::FileExist(wsPath + itm))
+		{
+			CConsoleVariable::GetInstance().PrintErrLog(CTextConfig::GetInstance().GetText_By_Code(0x20).c_str(), (wsPath + itm).c_str());
+			return FALSE;
+		}
+	}
 
-		return wstring(L"ABCD");
-	});
+	if (!CGameLauncher::GetInstance().SetAutoAnswerVerCode())
+		return FALSE;
 }
 
 int main()
@@ -72,7 +86,7 @@ int main()
 	// important!
 	WeclomeStep();
 
-	if (!InitializeShareMemory())
+	if (!CheckFile() || !InitializeShareMemory())
 	{
 		int n;
 		wcin >> n;

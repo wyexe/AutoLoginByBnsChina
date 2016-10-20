@@ -53,6 +53,9 @@ public:
 
 	// wait to Show Client.exe
 	BOOL IsShowClient() CONST throw();
+
+	// Set Answer Ver Code
+	BOOL SetAutoAnswerVerCode() throw();
 private:
 	std::function<std::wstring(CONST std::wstring&)> Asker;
 };

@@ -286,3 +286,58 @@ BOOL CGameLauncher::IsShowClient() CONST throw()
 	}
 	return FALSE;
 }
+
+BOOL CGameLauncher::SetAutoAnswerVerCode() throw()
+{
+	// CrackCaptchaAPI.dll
+	WCHAR wszPath[MAX_PATH] = { 0 };
+	::GetCurrentDirectoryW(MAX_PATH, wszPath);
+
+	std::wstring wsPath = wszPath;
+	wsPath += L"\\DLL\\CrackCaptchaAPI.dll";
+
+	HMODULE hmDLL = ::LoadLibraryW((wsPath).c_str());
+	if (hmDLL == NULL)
+	{
+		CConsoleVariable::GetInstance().PrintErrLog(CTextConfig::GetInstance().GetText_By_Code(0x21).c_str(), wsPath.c_str());
+		return FALSE;
+	}
+
+	typedef int (FAR WINAPI * D2file)(const char* pszSoftWareld, const char* pszUserName, const char * pszPass, const char* pFilePath, unsigned short usTimeOut, unsigned long ulVCodeTypeID, char * pszCodeText);
+	D2file pD2file = (D2file)::GetProcAddress(hmDLL, "D2file");
+	if (pD2file == nullptr)
+	{
+		CConsoleVariable::GetInstance().PrintErrLog(CTextConfig::GetInstance().GetText_By_Code(0x22).c_str());
+		return FALSE;
+	}
+
+	std::wstring wsDamaAccount;
+	std::wstring wsDamaPass;
+
+	if (!CTextConfig::GetInstance().GetConfigValue_By_KeyName(L"DamaAccount", wsDamaAccount))
+		return FALSE;
+	if (!CTextConfig::GetInstance().GetConfigValue_By_KeyName(L"DamaPass", wsDamaPass))
+		return FALSE;
+
+	SetAsker([&pD2file,&wsDamaAccount,&wsDamaPass](CONST std::wstring& wsVerCodePath)
+	{
+		CHAR szAnswerText[32] = { 0 };
+		int nRetCode = pD2file("f2e0d5bfad94c9e325e1a7b707f3fcc9", CCharacter::UnicodeToASCII(wsDamaAccount).c_str(), CCharacter::UnicodeToASCII(wsDamaPass).c_str(), \
+													CCharacter::UnicodeToASCII(wsVerCodePath).c_str(), 30, 101, szAnswerText);
+
+		if (nRetCode == -101)
+		{
+			CConsoleVariable::GetInstance().PrintErrLog(CTextConfig::GetInstance().GetText_By_Code(0x23).c_str());
+			return wstring(L"ABCD");
+		}
+		else if (nRetCode < 0)
+		{
+			CConsoleVariable::GetInstance().PrintErrLog(CTextConfig::GetInstance().GetText_By_Code(0x24).c_str(), nRetCode);
+			return wstring(L"ABCD");
+		}
+
+		return CCharacter::ASCIIToUnicode(szAnswerText);
+	});
+
+	return TRUE;
+}
