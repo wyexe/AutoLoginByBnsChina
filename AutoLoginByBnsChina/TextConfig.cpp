@@ -66,6 +66,16 @@ BOOL CTextConfig::GetConfigValue_By_KeyName(_In_ CONST std::wstring& wsKeyName, 
 	return TRUE;
 }
 
+BOOL CTextConfig::GetConfigHexValue_By_KeyName(_In_ CONST std::wstring& wsKeyName, _Out_ DWORD& dwValue) CONST throw()
+{
+	std::wstring wsValue;
+	if (!GetConfigValue_By_KeyName(wsKeyName, wsValue))
+		return FALSE;
+
+	dwValue = static_cast<DWORD>(_wtoi(wsValue.c_str()));
+	return TRUE;
+}
+
 BOOL CTextConfig::ResetAccountSchedule(_In_ std::function<BOOL(CONST TextAccountSchedule&)> Finder, _In_ std::function<VOID(TextAccountSchedule&)> Seter) CONST throw()
 {
 	vector<TextAccountSchedule> vlst;

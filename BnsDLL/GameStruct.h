@@ -117,6 +117,7 @@ typedef struct _Account_Info_GAME
 	AccountLog   AccountLog_;								// 帐号日志
 	DWORD dwPid;											// 进程ID
 	HWND hGameWnd;											// 窗口句柄
+	HWND hLauncher;											// 
 	AccountRunStatus AccountStatus;							// 帐号状态
 	UINT uAccountPlayerCount;								// 
 	Account_Player_Info AccountPlayerArr[MAX_PLAYER_COUNT];	// 

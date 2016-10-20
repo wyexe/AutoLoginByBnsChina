@@ -15,6 +15,7 @@ public:
 
 	// get config value
 	BOOL GetConfigValue_By_KeyName(_In_ CONST std::wstring& wsKeyName, _Out_ std::wstring& wsConfigValue) CONST throw();
+	BOOL GetConfigHexValue_By_KeyName(_In_ CONST std::wstring& wsKeyName, _Out_ DWORD& dwValue) CONST throw();
 
 	// reset account schedule
 	BOOL ResetAccountSchedule(_In_ std::function<BOOL(CONST TextAccountSchedule&)> Finder, _In_ std::function<VOID(TextAccountSchedule&)> Seter) CONST throw();

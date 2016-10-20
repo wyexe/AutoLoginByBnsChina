@@ -96,7 +96,13 @@ BOOL CAccountServices::RunGame(_In_ ACCOUNT_INFO_GAME* pAccGame) CONST throw()
 	DWORD dwMaxLoginTime = CConsoleVariable::GetInstance().GetMaxLoginTime();
 	auto ulTick = ::GetTickCount64();
 	
-	CGameLauncher::GetInstance().RunLauncher(pAccGame);
+	if (!CGameLauncher::GetInstance().RunLauncher(pAccGame))
+	{
+		KillGame(pAccGame);
+		pAccGame->AccountStatus.bLogining = FALSE;
+		return FALSE;
+	}
+
 	while (true)
 	{
 		if (pAccGame->AccountStatus.bClose)

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "ConsoleCommond.h"
+#include "GameLauncher.h"
 #include <thread>
 
 VOID WeclomeStep()
@@ -50,6 +51,17 @@ BOOL InitializeShareMemory()
 	ZeroMemory(pShare, sizeof(SHARED_INFO));
 	::GetCurrentDirectoryW(MAX_PATH, pShare->szConsolePath);
 	return TRUE;
+}
+
+BOOL CheckFile()
+{
+	// CrackCaptchaAPI.dll
+
+
+	CGameLauncher::GetInstance().SetAsker([](CONST std::wstring& wsVerCodePath) {
+
+		return wstring(L"ABCD");
+	});
 }
 
 int main()
