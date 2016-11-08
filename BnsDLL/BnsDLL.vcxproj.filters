@@ -16,6 +16,15 @@
     <Filter Include="Common">
       <UniqueIdentifier>{ffc69858-e837-4b7c-a522-991f08df3aef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{4568c52c-0f0a-4e75-b1e6-cb2c8484bcad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Variable">
+      <UniqueIdentifier>{599d70cc-d0d8-436e-b353-7d17af51d4ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object">
+      <UniqueIdentifier>{ee0988d5-985f-42ee-9a83-655d64a93313}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -99,6 +108,18 @@
     <ClInclude Include="..\..\MyTools\MyTools\ToolsPublic.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="BnsLogin.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameVariable.h">
+      <Filter>Variable</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginPlayer.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="BnsFunction.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -160,6 +181,18 @@
     </ClCompile>
     <ClCompile Include="..\..\MyTools\MyTools\DES.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="BnsLogin.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameVariable.cpp">
+      <Filter>Variable</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginPlayer.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BnsFunction.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

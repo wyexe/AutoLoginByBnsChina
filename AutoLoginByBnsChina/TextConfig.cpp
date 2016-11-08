@@ -76,6 +76,25 @@ BOOL CTextConfig::GetConfigHexValue_By_KeyName(_In_ CONST std::wstring& wsKeyNam
 	return TRUE;
 }
 
+BOOL CTextConfig::GetConfigRect_By_KeyName(_In_ CONST std::wstring& wsKeyName, _Out_ ConfigRect& ConfigRect_) CONST throw()
+{
+	std::wstring wsValue;
+	if (!GetConfigValue_By_KeyName(wsKeyName, wsValue))
+		return FALSE;
+
+	vector<std::wstring> ParmVec;
+	CCharacter::Split(wsValue, L",", ParmVec, Split_Option_KeepOnly | Split_Option_RemoveEmptyEntries);
+	if (ParmVec.size() != 2)
+	{
+		CConsoleVariable::GetInstance().PrintErrLog(GetText_By_Code(0x27).c_str(), wsKeyName.c_str(), wsValue.c_str());
+		return FALSE;
+	}
+
+	ConfigRect_.nLeft = _wtoi(ParmVec.at(0).c_str());
+	ConfigRect_.nTop = _wtoi(ParmVec.at(1).c_str());
+	return TRUE;
+}
+
 BOOL CTextConfig::ResetAccountSchedule(_In_ std::function<BOOL(CONST TextAccountSchedule&)> Finder, _In_ std::function<VOID(TextAccountSchedule&)> Seter) CONST throw()
 {
 	vector<TextAccountSchedule> vlst;
@@ -128,8 +147,9 @@ BOOL CTextConfig::AppendAccountScedule(CONST TextAccountSchedule& AccountSchedul
 		wsText += wsClassText;
 		wsText += L",";
 		wsText += CConsoleVariable::GetInstance().ConvertToText(L"%d", itm.uLevel);
+		wsText += L"\r\n";
 	}
-	wsText += L"\r\n-->\r\n";
+	wsText += L"-->\r\n";
 
 
 	WCHAR wszPath[MAX_PATH] = { 0 };
@@ -227,7 +247,7 @@ BOOL CTextConfig::ReadAccountSchedule_By_File(_In_ _Out_ std::vector<TextAccount
 	lstrcatW(wszPath, L"\\AccountSchedule.txt");
 	if (!CLPublic::FileExit(wszPath))
 	{
-		CConsoleVariable::GetInstance().PrintErrLog(GetText_By_Code(0x1).c_str());
+		CConsoleVariable::GetInstance().PrintErrLog(GetText_By_Code(0x25).c_str());
 		return FALSE;
 	}
 
@@ -298,7 +318,7 @@ BOOL CTextConfig::ReadASCIIFile_By_Path(_In_ CONST wstring& cwsPath, _Out_ std::
 		return FALSE;
 	}
 
-	std::shared_ptr<CHAR> pszFileContent(new CHAR[uFileLen], [](CHAR* p) {delete[] p; });
+	std::shared_ptr<CHAR> pszFileContent(new CHAR[uFileLen + 1], [](CHAR* p) {delete[] p; });
 	if (pszFileContent == nullptr)
 	{
 		CConsoleVariable::GetInstance().PrintErrLog(L"pszFileContent = nullptr!");
@@ -319,7 +339,7 @@ BOOL CTextConfig::ClearAccountScheduleFile() CONST throw()
 {
 	WCHAR wszPath[MAX_PATH] = { 0 };
 	::GetCurrentDirectoryW(MAX_PATH, wszPath);
-	lstrcatW(wszPath, L"\\Account.txt");
+	lstrcatW(wszPath, L"\\AccountSchedule.txt");
 
 	return CLPublic::FileExit(wszPath) ? CLFile::ClearFileContent(wszPath) : FALSE;
 }

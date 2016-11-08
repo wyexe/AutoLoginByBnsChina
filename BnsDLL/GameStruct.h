@@ -6,9 +6,24 @@
 #include <vector>
 #include <MyTools/CLLog.h>
 #include <MyTools/ClassInstance.h>
+#include <MyTools/Character.h>
 
 #define SZFILE_NAME_SHAREDINFO	L"Bns_China_Share_Mem"
 
+#define ReadDWORD(x)								CCharacter::ReadDWORD(x)
+#define ReadBYTE(x)									CCharacter::ReadBYTE(x)
+#define ReadFloat(x)								CCharacter::ReadFloat(x)
+#define ReadDouble(x)								CCharacter::ReadDouble(x)
+
+enum em_Base
+{
+	em_Base_Person,
+	em_Base_PersonOffset1,
+	em_Base_PersonOffset2,
+	em_Base_PersonOffset3,
+	em_Base_PlayerTraverseOffset,
+	em_Base_Volume
+};
 
 enum em_Player_Classes
 {
@@ -82,9 +97,9 @@ enum em_Console_Variable
 ///////////////帐号///////////////////////////////////////////////////////////
 typedef struct _Account_Info
 {
-	WCHAR szUserName[64];			//	帐号
-	WCHAR szPassWord[32];			//	密码
-	UINT uVolumn;					//  点卷
+	WCHAR szUserName[64];									//	帐号
+	WCHAR szPassWord[32];									//	密码
+	UINT uVolumn;											//  点卷
 }ACCOUNT_INFO, *PACCOUNT_INFO;
 
 
@@ -94,6 +109,7 @@ typedef struct _AccountRunStatus
 	BOOL bExist;											// 该帐号已经被占用了
 	BOOL bLogining;											// 是否登录中
 	BOOL bClose;											// 是否强制关闭该帐号
+	BOOL bPassInvalid;										// 密码错误
 }AccountRunStatus;
 
 typedef struct _AccountLog
@@ -104,10 +120,10 @@ typedef struct _AccountLog
 
 struct Account_Player_Info
 {
-	UINT uIndex;
-	UINT uLevel;
-	em_Player_Classes emPlayerClasses;
-	WCHAR wszPlayerName[64];
+	UINT uIndex;											// 角色索引
+	UINT uLevel;											// 角色等级
+	em_Player_Classes emPlayerClasses;						// 职业
+	WCHAR wszPlayerName[64];								// 角色名字
 };
 
 #define MAX_PLAYER_COUNT 10
@@ -140,6 +156,7 @@ typedef struct _Account_Info_GAME
 		AccountStatus.bDone = FALSE;
 		AccountStatus.bClose = FALSE;
 		AccountStatus.bLogining = FALSE;
+		AccountStatus.bPassInvalid = FALSE;
 	}
 }ACCOUNT_INFO_GAME, *PACCOUNT_INFO_GAME;
 
@@ -172,6 +189,7 @@ typedef struct _Shared_Info
 		auto itr = std::find_if(std::begin(arrGameInfo), std::end(arrGameInfo), [](ACCOUNT_INFO_GAME& AccountGame) {
 			return !AccountGame.AccountStatus.bDone && AccountGame.AccountStatus.bExist;
 		});
+		return itr == std::end(arrGameInfo) ? nullptr : itr;
 	}
 	VOID Clear()
 	{

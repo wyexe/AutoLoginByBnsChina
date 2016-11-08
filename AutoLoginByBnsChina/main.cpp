@@ -60,9 +60,12 @@ BOOL CheckFile()
 	::GetCurrentDirectoryW(MAX_PATH, wszPath);
 	std::wstring wsPath = wszPath;
 
-	CONST static std::vector<std::wstring> FilePathVec = {
+	CONST static std::vector<std::wstring> FilePathVec = 
+	{
 		L"\\Config.ini", L"\\DLL\\BnsDLL.dll", L"\\DLL\\CrackCaptchaAPI.dll",
-		L"\\Language\\Text.ini"
+		L"\\Language\\Text.ini", L"\\Account.txt", L"\\Res\\ChoiceServer.bmp",
+		L"\\Res\\InvaildPassword.bmp", L"\\Res\\LoginAD.bmp", L"\\Res\\SafeCheck.bmp",
+		L"\\opencv_core2413.dll", L"\\opencv_highgui2413.dll", L"\\opencv_imgproc2413.dll"
 	};
 
 	for (CONST auto& itm : FilePathVec)
@@ -76,15 +79,19 @@ BOOL CheckFile()
 
 	if (!CGameLauncher::GetInstance().SetAutoAnswerVerCode())
 		return FALSE;
+
+	return TRUE;
 }
 
 int main()
 {
-	// Set Log Type
-	CConsoleVariable::GetInstance().SetLogerByConfig();
+	SetConsole_Language_CHINA;
 
 	// important!
 	WeclomeStep();
+
+	// Set Log Type
+	CConsoleVariable::GetInstance().SetLogerByConfig();
 
 	if (!CheckFile() || !InitializeShareMemory())
 	{
@@ -94,16 +101,22 @@ int main()
 	}
 
 	CLGrammar Grammar;
-	Grammar.AddTranList(L"ResetAccount", CConsoleCommond::ResetAccount);
+	Grammar.AddTranList(L"ResetAccount",	CConsoleCommond::ResetAccount);
+	Grammar.AddTranList(L"Run",				CConsoleCommond::Run);
+	//Grammar.AddTranList(L"Stop", CConsoleCommond::Stop);
+	Grammar.AddTranList(L"Total",			CConsoleCommond::Total);
 
 	std::wstring wsCommond;
 	while (true)
 	{
+		wcout << L">:";
 		std::getline(std::wcin, wsCommond);
 		if (wsCommond == L"exit")
 			break;
 
-		
+		WCHAR wszText[1024] = { 0 };
+		Grammar.AnalysisGrammar(wsCommond.c_str(), wszText);
+		wcout << L"Result:" << wszText << endl;
 	}
 
 	return 0;

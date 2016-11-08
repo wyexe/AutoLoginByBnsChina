@@ -91,27 +91,38 @@ VOID CConsoleVariable::SetLogerByConfig() throw()
 {
 	std::wstring wsValue;
 	if (!CTextConfig::GetInstance().GetConfigValue_By_KeyName(L"LogType", wsValue))
+	{
 		::MessageBoxW(NULL, CTextConfig::GetInstance().GetText_By_Code(0xD).c_str(), L"Error", NULL);
+		ExitProcess(0);
+	}
 	else
 	{
 		CCharacter::Trim_W(wsValue);
 		if (wsValue == L"MessageBox")
 		{
-			Loger = [](_In_ LPCWSTR LogBuffer) { LogMsgBox(LOG_LEVEL_EXCEPTION, L"%s", LogBuffer); };
-			::MessageBoxW(NULL, CTextConfig::GetInstance().GetText_By_Code(0xD).c_str(), L"Error", NULL);
+			Loger = [](_In_ LPCWSTR LogBuffer) 
+			{ 
+				LogMsgBox(LOG_LEVEL_EXCEPTION, L"%s", LogBuffer); 
+				::MessageBoxW(NULL, CTextConfig::GetInstance().GetText_By_Code(0xD).c_str(), L"Error", NULL);
+				ExitProcess(0);
+			};
+			
 		}
 		else if (wsValue == L"Console")
 		{
-			SetConsole_Language_CHINA;
-			Loger = [](_In_ LPCWSTR LogBuffer) { std::wcout << LogBuffer << std::endl; };
-			std::wcout << CTextConfig::GetInstance().GetText_By_Code(0xD).c_str() << std::endl;
+			Loger = [](_In_ LPCWSTR LogBuffer) 
+			{ 
+				std::wcout << LogBuffer << std::endl; 
+				std::wcout << CTextConfig::GetInstance().GetText_By_Code(0xD).c_str() << std::endl;
+				system("pause");
+				ExitProcess(0);
+			};
 		}
 		else
 		{
 			::MessageBoxW(NULL, CTextConfig::GetInstance().GetText_By_Code(0xE).c_str(), L"Error", NULL);
 		}
 	}
-	ExitProcess(0);
 }
 
 VOID CConsoleVariable::PrintErrLog(_In_ LPCWSTR pwszFormat, ...) CONST throw()

@@ -63,7 +63,7 @@ BOOL CAccountServices::InitializeAccountShare() CONST throw()
 	auto& pShare = CConsoleVariable::GetInstance().GetShareInfo();
 
 	std::vector<TextAccountSchedule> AccountScheduleVec;
-	if (CTextConfig::GetInstance().GetAccountSchedule(AccountScheduleVec))
+	if (!CTextConfig::GetInstance().GetAccountSchedule(AccountScheduleVec))
 		return FALSE;
 	
 	for (CONST auto& itm : AccountScheduleVec)
@@ -78,8 +78,10 @@ BOOL CAccountServices::InitializeAccountShare() CONST throw()
 			return FALSE;
 		}
 
+		pAccGame->Clear();
 		CCharacter::wstrcpy_my(pAccGame->MyAcount_Info.szUserName, itm.AccountContent.wsAccountName.c_str());
 		CCharacter::wstrcpy_my(pAccGame->MyAcount_Info.szPassWord, itm.AccountContent.wsAccountPass.c_str());
+		pAccGame->AccountStatus.bExist = TRUE;
 		pShare->nAccountCount += 1;
 	}
 
@@ -114,6 +116,8 @@ BOOL CAccountServices::RunGame(_In_ ACCOUNT_INFO_GAME* pAccGame) CONST throw()
 
 		if (pAccGame->AccountStatus.bDone)
 		{
+			KillGame(pAccGame);
+
 			// print to console !
 			CConsoleVariable::GetInstance().PrintToConsole(CTextConfig::GetInstance().GetText_By_Code(0x1C).c_str(), pAccGame->MyAcount_Info.szUserName);
 
