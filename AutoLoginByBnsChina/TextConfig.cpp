@@ -125,8 +125,6 @@ BOOL CTextConfig::AppendAccountScedule(CONST TextAccountSchedule& AccountSchedul
 
 	wsText += AccountSchedule_.AccountContent.wsAccountName;
 	wsText += L",";
-	wsText += AccountSchedule_.AccountContent.wsAccountPass;
-	wsText += L",";
 	wsText += CConsoleVariable::GetInstance().ConvertToText(L"%d", AccountSchedule_.bFinish);
 	wsText += L",";
 	wsText += CConsoleVariable::GetInstance().ConvertToText(L"%d", AccountSchedule_.uVolume);
@@ -264,6 +262,7 @@ BOOL CTextConfig::ReadAccountSchedule_By_File(_In_ _Out_ std::vector<TextAccount
 		std::vector<std::wstring> AccountInfoVec;
 		if (CCharacter::Split(itm, L",", AccountInfoVec, Split_Option_RemoveEmptyEntries | Split_Option_KeepOnly) == 3)
 		{
+			AccountSchedule_.Clear();
 			AccountSchedule_.AccountContent.wsAccountName = AccountInfoVec.at(0);
 			AccountSchedule_.bFinish = _wtoi(AccountInfoVec.at(1).c_str()) == 0 ? FALSE : TRUE;
 			AccountSchedule_.uVolume = static_cast<UINT>(_wtoi(AccountInfoVec.at(2).c_str()));
@@ -278,6 +277,7 @@ BOOL CTextConfig::ReadAccountSchedule_By_File(_In_ _Out_ std::vector<TextAccount
 		}
 
 		// loop
+		AccountInfoVec.clear();
 		if (CCharacter::Split(itm, L",", AccountInfoVec, Split_Option_RemoveEmptyEntries | Split_Option_KeepOnly) == 4)
 		{
 			AccountPlayerConfig PlayerConfig_;

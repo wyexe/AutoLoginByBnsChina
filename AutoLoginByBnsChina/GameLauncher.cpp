@@ -31,8 +31,12 @@ BOOL CGameLauncher::RunLauncher(_In_ ACCOUNT_INFO_GAME* pAccGame) CONST throw()
 
 BOOL CGameLauncher::CreateGameLauncher() CONST throw()
 {
+	Log(LOG_LEVEL_NORMAL, L"CreateGameLauncher");
 	if (CLProcess::Is_Exist_Process_For_ProcName(L"Launcher.exe"))
+	{
+		Log(LOG_LEVEL_NORMAL, L"Exist Launcher.exe");
 		return TRUE;
+	}
 
 	std::wstring wsGameLauncherPath;
 	if (!CTextConfig::GetInstance().GetConfigValue_By_KeyName(L"GameLauncherPath", wsGameLauncherPath))
@@ -41,11 +45,14 @@ BOOL CGameLauncher::CreateGameLauncher() CONST throw()
 	CConsoleVariable::GetInstance().PrintToConsole(CTextConfig::GetInstance().GetText_By_Code(0x26).c_str());
 	CLProcess::CreateProcess_InjectorRemoteDLL(wsGameLauncherPath.c_str(), nullptr, nullptr);
 	::Sleep(10 * 1000);
+	Log(LOG_LEVEL_NORMAL, L"Is_Exist_Process_For_ProcName=%d", CLProcess::Is_Exist_Process_For_ProcName(L"Launcher.exe"));
 	return CLProcess::Is_Exist_Process_For_ProcName(L"Launcher.exe");
 }
 
 BOOL CGameLauncher::WaitToShow(_In_ ACCOUNT_INFO_GAME* pAccGame) CONST throw()
 {
+	Log(LOG_LEVEL_NORMAL, L"WaitToShow");
+
 	DWORD dwMaxTime = NULL;
 	if (!CTextConfig::GetInstance().GetConfigHexValue_By_KeyName(L"ShowLuncherTimeOut", dwMaxTime))
 		return FALSE;
@@ -96,6 +103,7 @@ BOOL CALLBACK CGameLauncher::EnumGameLauncher(_In_ HWND hLauncher, LPARAM lpParm
 
 BOOL CGameLauncher::SetLoginAccountNameForLauncher(_In_ ACCOUNT_INFO_GAME* pAccGame) CONST throw()
 {
+	Log(LOG_LEVEL_NORMAL, L"SetLoginAccountNameForLauncher");
 	std::wstring wsGameLauncherPath;
 	if (!CTextConfig::GetInstance().GetConfigValue_By_KeyName(L"GameLauncherPath", wsGameLauncherPath))
 		return FALSE;
@@ -112,6 +120,7 @@ BOOL CGameLauncher::SetLoginAccountNameForLauncher(_In_ ACCOUNT_INFO_GAME* pAccG
 BOOL CGameLauncher::WaitToLauncherInitialize(_In_ HWND hLauncher) CONST throw()
 {
 	// wait to load complete
+	Log(LOG_LEVEL_NORMAL, L"WaitToLauncherInitialize");
 	DWORD dwTime = NULL;
 	if (!CTextConfig::GetInstance().GetConfigHexValue_By_KeyName(L"TimeForShowLauncher", dwTime))
 		return FALSE;
@@ -348,10 +357,7 @@ BOOL CGameLauncher::PicFinder(_In_ cwstring& wsPicName) CONST throw()
 	wsSourcePath += L"\\Res\\DeskPic.bmp";
 
 	float fValue = MatchPic_SQDIFF(CCharacter::UnicodeToASCII(wsSourcePath).c_str(), CCharacter::UnicodeToASCII(wsMatchPath).c_str());
-	if (fValue > 0)
-	{
-		Log(LOG_LEVEL_NORMAL, L"fValue=%.2f, Name=%s", fValue, wsPicName.c_str());
-	}
+	Log(LOG_LEVEL_NORMAL, L"fValue=%.2f, Name=%s", fValue, wsPicName.c_str());
 	return fValue >= 0.7;
 }
 
@@ -529,7 +535,13 @@ BOOL CGameLauncher::WaitForClient(_In_ ACCOUNT_INFO_GAME* pAccGame) CONST throw(
 	auto ulTick = ::GetTickCount64();
 	while (true)
 	{
-		if (static_cast<DWORD>(::GetTickCount64() - ulTick) >= 60 * 1000)
+		if (static_cast<DWORD>(::GetTickCount64() - ulTick) >= 3 * 60 * 1000)
+		{
+			Kill();
+			return FALSE;
+		}
+
+		if (!CLProcess::Is_Exist_Process_For_ProcId(pAccGame->dwPid))
 		{
 			Kill();
 			return FALSE;
@@ -541,5 +553,10 @@ BOOL CGameLauncher::WaitForClient(_In_ ACCOUNT_INFO_GAME* pAccGame) CONST throw(
 		::Sleep(1000);
 	}
 	return TRUE;
+}
+
+cwstring CGameLauncher::TestAsker(_In_ cwstring& wsPicPath) throw()
+{
+	return Asker(wsPicPath);
 }
 

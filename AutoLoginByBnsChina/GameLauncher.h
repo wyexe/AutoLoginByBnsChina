@@ -17,6 +17,7 @@ public:
 	// Find Pic
 	BOOL PicFinder(_In_ cwstring& wsPicName) CONST throw();
 
+	cwstring TestAsker(_In_ cwstring& wsPicPath) throw();
 private:
 	// Create Launcher Process
 	BOOL CreateGameLauncher() CONST throw();

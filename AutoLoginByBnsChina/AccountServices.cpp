@@ -4,6 +4,7 @@
 #include <MyTools/CLProcess.h>
 #include "GameLauncher.h"
 
+#define _SELF L"AccountServices.cpp"
 LPCWSTR CAccountServices::GetLoginingAccountName() CONST throw()
 {
 	auto pshare = CConsoleVariable::GetInstance().GetShareInfo();
@@ -96,7 +97,7 @@ BOOL CAccountServices::RunGame(_In_ ACCOUNT_INFO_GAME* pAccGame) CONST throw()
 	PrintTotal();
 
 	DWORD dwMaxLoginTime = CConsoleVariable::GetInstance().GetMaxLoginTime();
-	auto ulTick = ::GetTickCount64();
+	Log(LOG_LEVEL_NORMAL, L"dwMaxLoginTime=%d", dwMaxLoginTime);
 	
 	if (!CGameLauncher::GetInstance().RunLauncher(pAccGame))
 	{
@@ -105,6 +106,7 @@ BOOL CAccountServices::RunGame(_In_ ACCOUNT_INFO_GAME* pAccGame) CONST throw()
 		return FALSE;
 	}
 
+	auto ulTick = ::GetTickCount64();
 	while (true)
 	{
 		if (pAccGame->AccountStatus.bClose)

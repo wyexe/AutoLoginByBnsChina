@@ -88,6 +88,7 @@ DWORD WINAPI CConsoleCommond::Run(vector<GrammarContext>& vlst, LPWSTR pwszRetMs
 		}
 	}
 
+	swprintf_s(pwszRetMsg, 1024 - 1, L"Run Done!");
 	return 0;
 }
 
