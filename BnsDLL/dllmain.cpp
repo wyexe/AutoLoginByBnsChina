@@ -12,7 +12,7 @@ unsigned WINAPI _WorkThread(LPVOID lpParm)
 		return 0;
 	}
 	Log(LOG_LEVEL_NORMAL, L"Seting Value");
-	CGameVariable::GetInstance().SetValueAndGetOldValue_By_Id(em_Base::em_Base_Person, 0x12AF12C);
+	CGameVariable::GetInstance().SetValueAndGetOldValue_By_Id(em_Base::em_Base_Person, 0x1392B68);
 	CGameVariable::GetInstance().SetValueAndGetOldValue_By_Id(em_Base::em_Base_PersonOffset1, 0x50);
 	CGameVariable::GetInstance().SetValueAndGetOldValue_By_Id(em_Base::em_Base_PersonOffset2, 0x80);
 	CGameVariable::GetInstance().SetValueAndGetOldValue_By_Id(em_Base::em_Base_PersonOffset3, 0x48);
